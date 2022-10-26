@@ -1,11 +1,15 @@
 # Pengolahan-Citra_UTS
 
 ### Anggota Kelompok
+
 > Ariel Matius Surbakti
->> 201401038
+>
+> > 201401038
 
 > Avin Chaili Salim
->> 201401040
+>
+> > 201401040
 
 > Rezha Taufiqurrahman
->> 2014010???
+>
+> > 201401019
