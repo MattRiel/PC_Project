@@ -443,11 +443,11 @@ document.getElementById('mirror3').addEventListener('click', function () {
     tesbackup.push(temp);
   }
   //end of copy
-  var wnow = obj.width;
+  var wnow = obj.height;
   for (var i = 0; i < tesbackup.length; i++) {
     x = obj.i2x(i);
     y = obj.i2y(i);
-    if (y >= wnow / 2) {
+    if (y > wnow / 2) {
       posnow = obj.xy2i(x, wnow - y - 1);
       tes[i][0] = tesbackup[posnow][0];
       tes[i][1] = tesbackup[posnow][1];
