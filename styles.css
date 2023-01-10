@@ -9,7 +9,7 @@
 
 /* Control the left side */
 .left {
-  position: fixed;
+  position: absolute;
   height: 93.7vh;
   left: 0;
   background-color: #111;
