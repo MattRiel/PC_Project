@@ -35,12 +35,15 @@ function log(text) {
   console.log(text);
 }
 
+//
 function pc(canvas) {
   this.canvas = canvas;
   this.context = this.canvas.getContext('2d');
   this.width = 0;
   this.height = 0;
   this.imgsrc = 'Blank';
+
+  // fungsi yang akan membaca gambar lalu dirubah menjadi bentuk array
   this.image2read = function () {
     this.originalLakeImageData = this.context.getImageData(
       0,
@@ -71,6 +74,7 @@ function pc(canvas) {
     return this.resultArr;
   };
 
+  // membuat canvas kosong
   this.blank2canvas = function (w, h) {
     this.width = w;
     this.height = h;
@@ -80,6 +84,7 @@ function pc(canvas) {
     info('blank2canvas Success (Blank ' + w + 'x' + h + ')');
   };
 
+  // masukin gambar ke canvas
   this.image2canvas = function (imgsrc) {
     var imageObj = new Image();
     var parent = this;
@@ -95,6 +100,7 @@ function pc(canvas) {
     this.imgsrc = imgsrc;
   };
 
+  // mengembalikan image atau blank canvas untuk kembali ke kondisi awal
   this.image2original = function () {
     if (this.imgsrc == '') {
       error('image2original Failed : Image Source not found!');
@@ -107,6 +113,7 @@ function pc(canvas) {
     }
   };
 
+  // mengubah array agar dapat ditampilkan pada canvas dalam bentuk gambar
   this.array2canvas = function (arr) {
     this.imageData = this.context.getImageData(0, 0, this.width, this.height);
     if (this.imageData.data.length != arr.length * 4) {
@@ -124,6 +131,7 @@ function pc(canvas) {
     info('Array2Canvas Success (' + this.imgsrc + ')');
   };
 
+  // membaca data array agar dapat disusun histogram, lalu data dari hist2read akan dikirim ke hist2canvas
   this.hist2read = function (arr) {
     //checking
     for (var i = 0; i < arr.length; i++) {
@@ -158,6 +166,7 @@ function pc(canvas) {
     return resArr;
   };
 
+  // menampilkan data dari hist2read menjadi histogram
   this.hist2canvas = function (arr, fontsize) {
     if (arr == undefined) {
       error('hist2canvas Failed to execute');
@@ -246,345 +255,3 @@ function pc(canvas) {
     return y * this.width + x;
   };
 }
-
-var canvas = document.getElementById('canvas1');
-var obj = new pc(canvas);
-obj.image2canvas('avin.jpg');
-var canvas2 = document.getElementById('canvas2');
-var obj2 = new pc(canvas2);
-obj2.blank2canvas(200, 200);
-var tes = new Array();
-
-// FLIP 1
-document.getElementById('flip1').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i); //mengambil nilai index array ke dalam koordinat x
-    y = obj.i2y(i);
-    posnow = obj.xy2i(obj.width - 1 - x, y); //mengubah index array xy kedalam koordinat xy
-
-    tes[i][0] = tesbackup[posnow][0];
-    tes[i][1] = tesbackup[posnow][1];
-    tes[i][2] = tesbackup[posnow][2];
-    tes[i][3] = tesbackup[posnow][3];
-  }
-  obj.array2canvas(tes);
-});
-// FLIP 2
-document.getElementById('flip2').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i);
-    y = obj.i2y(i);
-    posnow = obj.xy2i(x, obj.height - 1 - y);
-    tes[i][0] = tesbackup[posnow][0];
-    tes[i][1] = tesbackup[posnow][1];
-    tes[i][2] = tesbackup[posnow][2];
-    tes[i][3] = tesbackup[posnow][3];
-  }
-  obj.array2canvas(tes);
-});
-// FLIP 3
-document.getElementById('flip3').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i);
-    y = obj.i2y(i);
-    posnow = obj.xy2i(obj.width - 1 - x, obj.height - 1 - y);
-    tes[i][0] = tesbackup[posnow][0];
-    tes[i][1] = tesbackup[posnow][1];
-    tes[i][2] = tesbackup[posnow][2];
-    tes[i][3] = tesbackup[posnow][3];
-  }
-  obj.array2canvas(tes);
-});
-
-// ROTASI
-document.getElementById('rotate').addEventListener('input', function () {
-  angle = parseInt(this.value);
-  document.getElementById('rotate_val').value = angle;
-  //copy array to array without reference
-  var tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  var pusatx = obj.width / 2;
-  var pusaty = obj.height / 2;
-
-  var toRadians = function (x) {
-    return x * (Math.PI / 180);
-  };
-  //rotate
-  for (var i = 0; i < tesbackup.length; i++) {
-    var x = obj.i2x(i) - pusatx;
-    var y = obj.i2y(i) - pusaty;
-    var xnow =
-      Math.floor(
-        x * Math.cos(toRadians(angle)) - y * Math.sin(toRadians(angle))
-      ) + pusatx;
-    var ynow =
-      Math.floor(
-        x * Math.sin(toRadians(angle)) + y * Math.cos(toRadians(angle))
-      ) + pusaty;
-    //var posnow = obj.xy2i(xnow,ynow)
-    var posnow = ynow * obj.width + xnow;
-    if (
-      posnow >= 0 &&
-      posnow < tes.length &&
-      xnow >= 0 &&
-      xnow < obj.width &&
-      ynow >= 0 &&
-      ynow < obj.height
-    ) {
-      tesbackup[i][0] = tes[posnow][0];
-      tesbackup[i][1] = tes[posnow][1];
-      tesbackup[i][2] = tes[posnow][2];
-      tesbackup[i][3] = tes[posnow][3];
-    } else {
-      tesbackup[i][3] = 0;
-    }
-  }
-  obj.array2canvas(tesbackup);
-});
-
-// ->> BUG PADA MIRROR ATAS
-// MIRROR 1
-document.getElementById('mirror1').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  var wnow = obj.width;
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i);
-    y = obj.i2y(i);
-    if (x >= wnow / 2) {
-      posnow = obj.xy2i(wnow - x - 1, y);
-      tes[i][0] = tesbackup[posnow][0];
-      tes[i][1] = tesbackup[posnow][1];
-      tes[i][2] = tesbackup[posnow][2];
-      tes[i][3] = tesbackup[posnow][3];
-    }
-  }
-  obj.array2canvas(tes);
-});
-// MIRROR 2
-document.getElementById('mirror2').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  var wnow = obj.width;
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i);
-    y = obj.i2y(i);
-    if (x < wnow / 2) {
-      posnow = obj.xy2i(wnow - x - 1, y);
-      tes[i][0] = tesbackup[posnow][0];
-      tes[i][1] = tesbackup[posnow][1];
-      tes[i][2] = tesbackup[posnow][2];
-      tes[i][3] = tesbackup[posnow][3];
-    }
-  }
-  obj.array2canvas(tes);
-});
-// MIRROR 3
-document.getElementById('mirror3').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  var wnow = obj.height;
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i);
-    y = obj.i2y(i);
-    if (y > wnow / 2) {
-      posnow = obj.xy2i(x, wnow - y - 1);
-      tes[i][0] = tesbackup[posnow][0];
-      tes[i][1] = tesbackup[posnow][1];
-      tes[i][2] = tesbackup[posnow][2];
-      tes[i][3] = tesbackup[posnow][3];
-    }
-  }
-  obj.array2canvas(tes);
-});
-// MIRROR 4
-document.getElementById('mirror4').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  var wnow = obj.width;
-  for (var i = 0; i < tesbackup.length; i++) {
-    x = obj.i2x(i);
-    y = obj.i2y(i);
-    if (y < wnow / 2) {
-      posnow = obj.xy2i(x, wnow - y - 1);
-      tes[i][0] = tesbackup[posnow][0];
-      tes[i][1] = tesbackup[posnow][1];
-      tes[i][2] = tesbackup[posnow][2];
-      tes[i][3] = tesbackup[posnow][3];
-    }
-  }
-  obj.array2canvas(tes);
-});
-
-// DEFAULT RGB
-document.getElementById('default').addEventListener('click', function () {
-  obj.image2original();
-  for (var i = 1; i <= 3; i++) {
-    document.getElementById('ch' + i).value = 0;
-  }
-
-  document.getElementById('ch4').value = 255;
-  rgbachange();
-});
-
-//  RANDOM RGB
-document.getElementById('randomize').addEventListener('click', function () {
-  for (var i = 1; i <= 3; i++) {
-    document.getElementById('ch' + i).value =
-      Math.floor(Math.random() * 511) - 255;
-  }
-  document.getElementById('ch4').value = Math.floor(Math.random() * 256);
-  rgbachange();
-});
-
-// HISTOGRAM
-document.getElementById('hist1').addEventListener('click', function () {
-  var hist = obj.hist2read([
-    parseInt(document.getElementById('histval').value),
-  ]); //Call [R,G,B,A] as [0,1,2,3], can input more than 1 but only [0..3] parameter only
-  obj2.hist2canvas(hist[0], 10);
-});
-
-// NEGATIVE
-document.getElementById('negative').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  for (var i = 0; i < tesbackup.length; i++) {
-    tes[i][0] = 255 - tesbackup[i][0];
-    tes[i][1] = 255 - tesbackup[i][1];
-    tes[i][2] = 255 - tesbackup[i][2];
-    tes[i][3] = tesbackup[i][3];
-  }
-  obj.array2canvas(tes);
-});
-
-// GRAYSCALE
-document.getElementById('grayscale').addEventListener('click', function () {
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  for (var i = 0; i < tesbackup.length; i++) {
-    var total = Math.floor(
-      (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
-    );
-    tes[i][0] = total;
-    tes[i][1] = total;
-    tes[i][2] = total;
-    tes[i][3] = tesbackup[i][3];
-  }
-  obj.array2canvas(tes);
-});
-
-// THRESHOLD
-document.getElementById('threshold').addEventListener('input', function () {
-  document.getElementById('threshold_val').value = this.value;
-  batas = parseInt(this.value);
-  //copy array to array without reference
-  tesbackup = new Array();
-  for (var c = 0; c < tes.length; c++) {
-    temp = new Array();
-    for (var d = 0; d < 4; d++) {
-      temp.push(tes[c][d]);
-    }
-    tesbackup.push(temp);
-  }
-  //end of copy
-  for (var i = 0; i < tes.length; i++) {
-    gabung = Math.floor(
-      (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
-    );
-    if (gabung < batas) {
-      gabung = 0;
-    } else {
-      gabung = 255;
-    }
-    tes[i][0] = gabung;
-    tes[i][1] = gabung;
-    tes[i][2] = gabung;
-    tes[i][3] = tes[i][3];
-  }
-  obj.array2canvas(tes);
-});
