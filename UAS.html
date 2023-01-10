@@ -35,13 +35,13 @@
 
     <main>
       <div class="split left">
-        <div class="row align-items-start mt-2">
+        <div class="position-absolute top-50 start-50 translate-middle">
           <div class="col">
             <h4>RGB TOOLS</h4>
             <button id="read">Read</button>
             <button id="ori">Original</button>
           </div>
-          <!-- Image Processing -->
+          <hr />
           <div class="col">
             <h4>IMAGE PROCESSING 1</h4>
             <button id="negatif" type="button">Negative</button>
@@ -73,11 +73,8 @@
             />
             <button id="brdefault" class="btn btn-danger btn-sm">Reset</button>
             <!-- Brightness -->
-            <hr />
           </div>
-        </div>
-        <!-- Edge Detection -->
-        <div class="row align-items-start mt-2">
+          <hr />
           <div class="col">
             <h4>EDGE DETECTION</h4>
             <button id="sobel">Sobel Method</button>
@@ -87,7 +84,7 @@
 
       <div class="split right">
         <!-- Image -->
-        <div class="row align-items-center mt-2">
+        <div class="wrapper mt-5">
           <div class="col">
             <h2>Original Image</h2>
             <canvas
@@ -122,10 +119,22 @@
         </div>
       </div>
     </main>
+
+    <footer>
+      <div class="footer fixed-bottom" style="background-color: yellow">
+        <div class="container-fluid">
+          <div class="row align-items-center" style="color: black">
+            <div class="col">201401019</div>
+            <div class="col">201401038</div>
+            <div class="col">201401040</div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 
   <!-- JavaScript -->
-  <script src="pc.js"></script>
+  <script src="imageproc.js"></script>
   <script>
     var canvas1 = document.getElementById('canvas1');
     var canvas3 = document.getElementById('canvas3');
@@ -136,7 +145,8 @@
     obj1.image2canvas(img);
     var tes = new Array();
   </script>
-  <!-- Membaca Citra -->
+
+  <!-- Read Citra -->
   <script>
     document.getElementById('read').addEventListener('click', function () {
       tes = obj1.image2read();
@@ -151,7 +161,8 @@
       document.getElementById('log_out').innerHTML = 'Citra dipulihkan';
     });
   </script>
-  <!-- Threshold Script -->
+
+  <!-- Threshold -->
   <script>
     // Threshold
     document.getElementById('threshold').addEventListener('click', function () {
@@ -192,9 +203,9 @@
       rgbachange();
     });
   </script>
-  <!-- Threshold Script -->
+  <!-- Threshold -->
 
-  <!-- Brightness Script -->
+  <!-- Brightness -->
   <script>
     // Brightness
     document
@@ -229,9 +240,9 @@
       rgbachange();
     });
   </script>
-  <!-- Brightness Script -->
+  <!-- Brightness -->
 
-  <!-- Negative Script -->
+  <!-- Negative -->
   <script>
     document.getElementById('negatif').addEventListener('click', function () {
       tesbackup = new Array();
@@ -251,9 +262,9 @@
       obj1.array2canvas(tes);
     });
   </script>
-  <!-- Negative Script -->
+  <!-- Negative -->
 
-  <!-- Grayscale Script -->
+  <!-- Grayscale -->
   <script>
     document.getElementById('grayscl').addEventListener('click', function () {
       tesbackup = new Array();
@@ -278,7 +289,7 @@
       obj1.array2canvas(tes);
     });
   </script>
-  <!-- Grayscale Script -->
+  <!-- Grayscale -->
 
   <!-- Sobel Edge Detection -->
   <script>
