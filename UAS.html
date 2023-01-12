@@ -299,11 +299,16 @@
       var G = new Array();
       var xpos = 0;
       var ypos = 0;
-      function cek(x, y, n) {
+      function cek(x, y) {
         if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
           return parseInt(tes[obj1.xy2i(x, y)]);
         else return 0;
       }
+      // function cek(x, y, n) {
+      //   if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
+      //     return parseInt(tes[obj1.xy2i(x, y)]);
+      //   else return 0;
+      // }
       for (var i = 0; i < tes.length; i++) {
         var Gtemp = new Array(4);
         xpos = obj1.i2x(i);
