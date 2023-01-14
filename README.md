@@ -1,4 +1,4 @@
-# Pengolahan-Citra_UTS
+# Project Pengolahan Citra
 
 ### Anggota Kelompok
 
