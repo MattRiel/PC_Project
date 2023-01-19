@@ -1,15 +1,15 @@
 # Project Pengolahan Citra
 
-### Anggota Kelompok
+## Anggota Kelompok
 
-> Ariel Matius Surbakti
->
-> > 201401038
+- [Ariel Matius Surbakti](https://github.com/MattRiel)
+  `201401038`<br />
+  [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arielmatius/)
 
-> Avin Chaili Salim
->
-> > 201401040
+- [Avin Chaili Salim](https://github.com/AvinChailiSalim)
+  `201401040` <br />
+  [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/avin-salim-682218201/)
 
-> Rezha Taufiqurrahman
->
-> > 201401019
+- [TM Rezha Taufiqurrahman](https://github.com/RezhaTaufik)
+  `201401019`<br />
+  [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rezha-taufik-7b2b21223/)

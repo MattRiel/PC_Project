@@ -35,7 +35,7 @@ function log(text) {
   console.log(text);
 }
 
-//
+// Mengambil isi dari canvas HTML ke JS
 function pc(canvas) {
   this.canvas = canvas;
   this.context = this.canvas.getContext('2d');
@@ -254,4 +254,210 @@ function pc(canvas) {
   this.xy2i = function (x, y) {
     return y * this.width + x;
   };
+}
+
+// Bentuk canvas
+{
+  var canvas1 = document.getElementById('canvas1');
+  var canvas3 = document.getElementById('canvas3');
+  var img = 'pics/pria25.png';
+  // img = 'pics/xx' // ganti xx dengan nama file gambar
+  var obj1 = new pc(canvas1);
+  var prev = new pc(canvas3);
+  prev.image2canvas(img);
+  obj1.image2canvas(img);
+  var tes = new Array();
+}
+
+// Read Pic
+{
+  document.getElementById('read').addEventListener('click', function () {
+    tes = obj1.image2read();
+    document.getElementById('log_out').innerHTML = 'Citra berhasil dibaca';
+  });
+}
+
+// Original Pic
+{
+  document.getElementById('ori').addEventListener('click', function () {
+    obj1.image2original();
+    document.getElementById('log_out').innerHTML = 'Citra dipulihkan';
+  });
+}
+
+// Algoritma Sobel
+{
+  document.getElementById('sobel').addEventListener('click', function () {
+    var XArray = new Array(4);
+    var YArray = new Array(4);
+    var FinalArr = new Array();
+    var xcoord = 0;
+    var ycoord = 0;
+    function count(x, y) {
+      if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
+        return parseInt(tes[obj1.xy2i(x, y)]);
+      else return 0;
+    }
+
+    for (var i = 0; i < tes.length; i++) {
+      var PrepArr = new Array(4);
+      xcoord = obj1.i2x(i);
+      ycoord = obj1.i2y(i);
+      for (var j = 0; j < 3; j++) {
+        XArray[j] =
+          count(xcoord - 1, ycoord - 1) * -1 +
+          count(xcoord - 1, ycoord) * -2 +
+          count(xcoord - 1, ycoord + 1) * -1 +
+          count(xcoord + 1, ycoord - 1) +
+          count(xcoord + 1, ycoord) * 2 +
+          count(xcoord + 1, ycoord + 1);
+
+        YArray[j] =
+          count(xcoord - 1, ycoord - 1) * -1 +
+          count(xcoord, ycoord - 1) * -2 +
+          count(xcoord + 1, ycoord - 1) * -1 +
+          count(xcoord - 1, ycoord + 1) +
+          count(xcoord, ycoord + 1) * 2 +
+          count(xcoord + 1, ycoord + 1);
+
+        PrepArr[j] = Math.floor(
+          Math.sqrt(
+            parseInt(XArray[j]) * parseInt(XArray[j]) +
+              parseInt(YArray[j]) * parseInt(YArray[j])
+          )
+        );
+      }
+      PrepArr[3] = tes[i][3];
+      FinalArr.push(PrepArr);
+    }
+    obj1.array2canvas(FinalArr);
+    document.getElementById('log_out').innerHTML = 'Sobel Edge Detection';
+  });
+}
+
+// Grayscale
+{
+  document.getElementById('grayscl').addEventListener('click', function () {
+    // array grayscale
+    tesbackup = new Array();
+    for (var c = 0; c < tes.length; c++) {
+      temp = new Array();
+      for (var d = 0; d < 4; d++) {
+        temp.push(tes[c][d]);
+      }
+      tesbackup.push(temp);
+    }
+
+    for (var i = 0; i < tesbackup.length; i++) {
+      var total = Math.floor(
+        (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
+      );
+      tes[i][0] = total;
+      tes[i][1] = total;
+      tes[i][2] = total;
+      tes[i][3] = tesbackup[i][3];
+    }
+
+    obj1.array2canvas(tes);
+    document.getElementById('log_out').innerHTML = 'Grayscale';
+  });
+}
+
+// Negative
+{
+  document.getElementById('negatif').addEventListener('click', function () {
+    // array negative
+    tesbackup = new Array();
+    for (var c = 0; c < tes.length; c++) {
+      temp = new Array();
+      for (var d = 0; d < 4; d++) {
+        temp.push(tes[c][d]);
+      }
+      tesbackup.push(temp);
+    }
+    for (var i = 0; i < tesbackup.length; i++) {
+      tes[i][0] = 255 - tesbackup[i][0];
+      tes[i][1] = 255 - tesbackup[i][1];
+      tes[i][2] = 255 - tesbackup[i][2];
+      tes[i][3] = tesbackup[i][3];
+    }
+    obj1.array2canvas(tes);
+    document.getElementById('log_out').innerHTML = 'Negative';
+  });
+}
+
+// Brightness
+{
+  // Brightness
+  document.getElementById('brightness').addEventListener('click', function () {
+    document.getElementById('brightness_val').value = this.value;
+    p = parseInt(this.value);
+    // array brightness
+    tesbackup = new Array();
+    for (var c = 0; c < tes.length; c++) {
+      temp = new Array();
+      for (var d = 0; d < 4; d++) {
+        temp.push(tes[c][d]);
+      }
+      tesbackup.push(temp);
+    }
+
+    for (var i = 0; i < tes.length; i++) {
+      tesbackup[i][0] = tes[i][0] + p;
+      tesbackup[i][1] = tes[i][1] + p;
+      tesbackup[i][2] = tes[i][2] + p;
+      tesbackup[i][3] = tes[i][3];
+    }
+    obj1.array2canvas(tesbackup);
+    document.getElementById('log_out').innerHTML = 'Brightness';
+  });
+
+  // Brightness Default
+  document.getElementById('brdefault').addEventListener('click', function () {
+    document.getElementById('brightness').value = 0;
+    document.getElementById('brightness_val').value = 0;
+    rgbachange();
+  });
+}
+
+// Threshold
+{
+  // Threshold
+  document.getElementById('threshold').addEventListener('click', function () {
+    document.getElementById('threshold_val').value = this.value;
+    batas = parseInt(this.value);
+    // array threshold
+    tesbackup = new Array();
+    for (var c = 0; c < tes.length; c++) {
+      temp = new Array();
+      for (var d = 0; d < 4; d++) {
+        temp.push(tes[c][d]);
+      }
+      tesbackup.push(temp);
+    }
+
+    for (var i = 0; i < tes.length; i++) {
+      gabung = Math.floor(
+        (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
+      );
+      if (gabung < batas) {
+        gabung = 0;
+      } else {
+        gabung = 255;
+      }
+      tes[i][0] = gabung;
+      tes[i][1] = gabung;
+      tes[i][2] = gabung;
+      tes[i][3] = tes[i][3];
+    }
+    obj1.array2canvas(tesbackup);
+    document.getElementById('log_out').innerHTML = 'Threshold';
+  });
+
+  // Threshold Default
+  document.getElementById('thdefault').addEventListener('click', function () {
+    document.getElementById('threshold').value = 0;
+    document.getElementById('threshold_val').value = 0;
+    rgbachange();
+  });
 }
