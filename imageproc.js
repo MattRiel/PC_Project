@@ -35,7 +35,7 @@ function log(text) {
   console.log(text);
 }
 
-//
+// Mengambil isi dari canvas HTML ke JS
 function pc(canvas) {
   this.canvas = canvas;
   this.context = this.canvas.getContext('2d');
