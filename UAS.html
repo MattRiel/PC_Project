@@ -16,8 +16,6 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
-    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet" />
-
     <link href="styles.css" rel="stylesheet" />
     <!-- BootStrap Link -->
   </head>
@@ -94,8 +92,8 @@
                 border-style: double;
                 border-color: cyan;
                 border-radius: 20px;
-                max-width: 75%;
-                height: auto;
+                max-width: 45%;
+                max-height: 45%;
               "
             ></canvas>
           </div>
@@ -108,8 +106,8 @@
                 border-style: double;
                 border-color: cyan;
                 border-radius: 20px;
-                max-width: 75%;
-                height: auto;
+                max-width: 45%;
+                max-height: 45%;
               "
             ></canvas>
           </div>
@@ -135,213 +133,4 @@
 
   <!-- JavaScript -->
   <script src="imageproc.js"></script>
-  <script>
-    var canvas1 = document.getElementById('canvas1');
-    var canvas3 = document.getElementById('canvas3');
-    var img = 'v1.png';
-    var obj1 = new pc(canvas1);
-    var prev = new pc(canvas3);
-    prev.image2canvas(img);
-    obj1.image2canvas(img);
-    var tes = new Array();
-  </script>
-
-  <!-- Read Citra -->
-  <script>
-    document.getElementById('read').addEventListener('click', function () {
-      tes = obj1.image2read();
-      document.getElementById('log_out').innerHTML = 'Citra berhasil dibaca';
-    });
-  </script>
-
-  <!-- Citra Asli -->
-  <script>
-    document.getElementById('ori').addEventListener('click', function () {
-      obj1.image2original();
-      document.getElementById('log_out').innerHTML = 'Citra dipulihkan';
-    });
-  </script>
-
-  <!-- Threshold -->
-  <script>
-    // Threshold
-    document.getElementById('threshold').addEventListener('click', function () {
-      document.getElementById('threshold_val').value = this.value;
-      batas = parseInt(this.value);
-      // copy array without reference
-      tesbackup = new Array();
-      for (var c = 0; c < tes.length; c++) {
-        temp = new Array();
-        for (var d = 0; d < 4; d++) {
-          temp.push(tes[c][d]);
-        }
-        tesbackup.push(temp);
-      }
-
-      // end of copy
-      for (var i = 0; i < tes.length; i++) {
-        gabung = Math.floor(
-          (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
-        );
-        if (gabung < batas) {
-          gabung = 0;
-        } else {
-          gabung = 255;
-        }
-        tes[i][0] = gabung;
-        tes[i][1] = gabung;
-        tes[i][2] = gabung;
-        tes[i][3] = tes[i][3];
-      }
-      obj1.array2canvas(tesbackup);
-    });
-
-    // Threshold Default
-    document.getElementById('thdefault').addEventListener('click', function () {
-      document.getElementById('threshold').value = 0;
-      document.getElementById('threshold_val').value = 0;
-      rgbachange();
-    });
-  </script>
-  <!-- Threshold -->
-
-  <!-- Brightness -->
-  <script>
-    // Brightness
-    document
-      .getElementById('brightness')
-      .addEventListener('click', function () {
-        document.getElementById('brightness_val').value = this.value;
-        p = parseInt(this.value);
-        // copy array without reference
-        tesbackup = new Array();
-        for (var c = 0; c < tes.length; c++) {
-          temp = new Array();
-          for (var d = 0; d < 4; d++) {
-            temp.push(tes[c][d]);
-          }
-          tesbackup.push(temp);
-        }
-
-        // end of copy
-        for (var i = 0; i < tes.length; i++) {
-          tesbackup[i][0] = tes[i][0] + p;
-          tesbackup[i][1] = tes[i][1] + p;
-          tesbackup[i][2] = tes[i][2] + p;
-          tesbackup[i][3] = tes[i][3];
-        }
-        obj1.array2canvas(tesbackup);
-      });
-
-    // Brightness Default
-    document.getElementById('brdefault').addEventListener('click', function () {
-      document.getElementById('brightness').value = 0;
-      document.getElementById('brightness_val').value = 0;
-      rgbachange();
-    });
-  </script>
-  <!-- Brightness -->
-
-  <!-- Negative -->
-  <script>
-    document.getElementById('negatif').addEventListener('click', function () {
-      tesbackup = new Array();
-      for (var c = 0; c < tes.length; c++) {
-        temp = new Array();
-        for (var d = 0; d < 4; d++) {
-          temp.push(tes[c][d]);
-        }
-        tesbackup.push(temp);
-      }
-      for (var i = 0; i < tesbackup.length; i++) {
-        tes[i][0] = 255 - tesbackup[i][0];
-        tes[i][1] = 255 - tesbackup[i][1];
-        tes[i][2] = 255 - tesbackup[i][2];
-        tes[i][3] = tesbackup[i][3];
-      }
-      obj1.array2canvas(tes);
-    });
-  </script>
-  <!-- Negative -->
-
-  <!-- Grayscale -->
-  <script>
-    document.getElementById('grayscl').addEventListener('click', function () {
-      tesbackup = new Array();
-      for (var c = 0; c < tes.length; c++) {
-        temp = new Array();
-        for (var d = 0; d < 4; d++) {
-          temp.push(tes[c][d]);
-        }
-        tesbackup.push(temp);
-      }
-
-      for (var i = 0; i < tesbackup.length; i++) {
-        var total = Math.floor(
-          (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
-        );
-        tes[i][0] = total;
-        tes[i][1] = total;
-        tes[i][2] = total;
-        tes[i][3] = tesbackup[i][3];
-      }
-
-      obj1.array2canvas(tes);
-    });
-  </script>
-  <!-- Grayscale -->
-
-  <!-- Sobel Edge Detection -->
-  <script>
-    document.getElementById('sobel').addEventListener('click', function () {
-      var Gxtemp = new Array(4);
-      var Gytemp = new Array(4);
-      var G = new Array();
-      var xpos = 0;
-      var ypos = 0;
-      function cek(x, y) {
-        if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
-          return parseInt(tes[obj1.xy2i(x, y)]);
-        else return 0;
-      }
-      // function cek(x, y, n) {
-      //   if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
-      //     return parseInt(tes[obj1.xy2i(x, y)]);
-      //   else return 0;
-      // }
-      for (var i = 0; i < tes.length; i++) {
-        var Gtemp = new Array(4);
-        xpos = obj1.i2x(i);
-        ypos = obj1.i2y(i);
-        for (var j = 0; j < 3; j++) {
-          Gxtemp[j] =
-            cek(xpos - 1, ypos - 1) * -1 +
-            cek(xpos - 1, ypos) * -2 +
-            cek(xpos - 1, ypos + 1) * -1 +
-            cek(xpos + 1, ypos - 1) +
-            cek(xpos + 1, ypos) * 2 +
-            cek(xpos + 1, ypos + 1);
-
-          Gytemp[j] =
-            cek(xpos - 1, ypos - 1) * -1 +
-            cek(xpos, ypos - 1) * -2 +
-            cek(xpos + 1, ypos - 1) * -1 +
-            cek(xpos - 1, ypos + 1) +
-            cek(xpos, ypos + 1) * 2 +
-            cek(xpos + 1, ypos + 1);
-
-          Gtemp[j] = Math.floor(
-            Math.sqrt(
-              parseInt(Gxtemp[j]) * parseInt(Gxtemp[j]) +
-                parseInt(Gytemp[j]) * parseInt(Gytemp[j])
-            )
-          );
-        }
-        Gtemp[3] = tes[i][3];
-        G.push(Gtemp);
-      }
-      obj1.array2canvas(G);
-    });
-  </script>
-  <!-- Sobel Edge Detection -->
 </html>
