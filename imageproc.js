@@ -266,13 +266,13 @@ function pc(canvas) {
   var prev = new pc(canvas3);
   prev.image2canvas(img);
   obj1.image2canvas(img);
-  var tes = new Array();
+  var FinalPic = new Array();
 }
 
 // Read Pic
 {
   document.getElementById('read').addEventListener('click', function () {
-    tes = obj1.image2read();
+    FinalPic = obj1.image2read();
     document.getElementById('log_out').innerHTML = 'Citra berhasil dibaca';
   });
 }
@@ -290,7 +290,7 @@ function pc(canvas) {
   document.getElementById('sobel').addEventListener('click', function () {
     function count(x, y) {
       if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
-        return parseInt(tes[obj1.xy2i(x, y)]);
+        return parseInt(FinalPic[obj1.xy2i(x, y)]);
       else return 0;
     }
 
@@ -300,7 +300,7 @@ function pc(canvas) {
     var xcoord = 0;
     var ycoord = 0;
 
-    for (var i = 0; i < tes.length; i++) {
+    for (var i = 0; i < FinalPic.length; i++) {
       var PrepArr = new Array(4);
       xcoord = obj1.i2x(i);
       ycoord = obj1.i2y(i);
@@ -328,10 +328,10 @@ function pc(canvas) {
           )
         );
       }
-      PrepArr[3] = tes[i][3];
+      PrepArr[3] = FinalPic[i][3];
       FinalArr.push(PrepArr);
     }
-    obj1.array2canvas(FinalArr);
+    obj1.array2canvas(FinalArr); // hasil terakhir disimpan di array FinalArr
     document.getElementById('log_out').innerHTML = 'Sobel Edge Detection';
   });
 }
@@ -340,26 +340,26 @@ function pc(canvas) {
 {
   document.getElementById('grayscl').addEventListener('click', function () {
     // array grayscale
-    tesbackup = new Array();
-    for (var c = 0; c < tes.length; c++) {
+    HasilAkhir = new Array();
+    for (var c = 0; c < FinalPic.length; c++) {
       temp = new Array();
       for (var d = 0; d < 4; d++) {
-        temp.push(tes[c][d]);
+        temp.push(FinalPic[c][d]);
       }
-      tesbackup.push(temp);
+      HasilAkhir.push(temp);
     }
 
-    for (var i = 0; i < tesbackup.length; i++) {
+    for (var i = 0; i < HasilAkhir.length; i++) {
       var total = Math.floor(
-        (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
+        (HasilAkhir[i][0] + HasilAkhir[i][1] + HasilAkhir[i][2]) / 3
       );
-      tes[i][0] = total;
-      tes[i][1] = total;
-      tes[i][2] = total;
-      tes[i][3] = tesbackup[i][3];
+      FinalPic[i][0] = total;
+      FinalPic[i][1] = total;
+      FinalPic[i][2] = total;
+      FinalPic[i][3] = HasilAkhir[i][3];
     }
 
-    obj1.array2canvas(tes);
+    obj1.array2canvas(FinalPic);
     document.getElementById('log_out').innerHTML = 'Grayscale';
   });
 }
@@ -368,21 +368,21 @@ function pc(canvas) {
 {
   document.getElementById('negatif').addEventListener('click', function () {
     // array negative
-    tesbackup = new Array();
-    for (var c = 0; c < tes.length; c++) {
+    HasilAkhir = new Array();
+    for (var c = 0; c < FinalPic.length; c++) {
       temp = new Array();
       for (var d = 0; d < 4; d++) {
-        temp.push(tes[c][d]);
+        temp.push(FinalPic[c][d]);
       }
-      tesbackup.push(temp);
+      HasilAkhir.push(temp);
     }
-    for (var i = 0; i < tesbackup.length; i++) {
-      tes[i][0] = 255 - tesbackup[i][0];
-      tes[i][1] = 255 - tesbackup[i][1];
-      tes[i][2] = 255 - tesbackup[i][2];
-      tes[i][3] = tesbackup[i][3];
+    for (var i = 0; i < HasilAkhir.length; i++) {
+      FinalPic[i][0] = 255 - HasilAkhir[i][0];
+      FinalPic[i][1] = 255 - HasilAkhir[i][1];
+      FinalPic[i][2] = 255 - HasilAkhir[i][2];
+      FinalPic[i][3] = HasilAkhir[i][3];
     }
-    obj1.array2canvas(tes);
+    obj1.array2canvas(FinalPic);
     document.getElementById('log_out').innerHTML = 'Negative';
   });
 }
@@ -394,22 +394,22 @@ function pc(canvas) {
     document.getElementById('brightness_val').value = this.value;
     p = parseInt(this.value);
     // array brightness
-    tesbackup = new Array();
-    for (var c = 0; c < tes.length; c++) {
+    HasilAkhir = new Array();
+    for (var c = 0; c < FinalPic.length; c++) {
       temp = new Array();
       for (var d = 0; d < 4; d++) {
-        temp.push(tes[c][d]);
+        temp.push(FinalPic[c][d]);
       }
-      tesbackup.push(temp);
+      HasilAkhir.push(temp);
     }
 
-    for (var i = 0; i < tes.length; i++) {
-      tesbackup[i][0] = tes[i][0] + p;
-      tesbackup[i][1] = tes[i][1] + p;
-      tesbackup[i][2] = tes[i][2] + p;
-      tesbackup[i][3] = tes[i][3];
+    for (var i = 0; i < FinalPic.length; i++) {
+      HasilAkhir[i][0] = FinalPic[i][0] + p;
+      HasilAkhir[i][1] = FinalPic[i][1] + p;
+      HasilAkhir[i][2] = FinalPic[i][2] + p;
+      HasilAkhir[i][3] = FinalPic[i][3];
     }
-    obj1.array2canvas(tesbackup);
+    obj1.array2canvas(HasilAkhir);
     document.getElementById('log_out').innerHTML = 'Brightness';
   });
 
@@ -428,30 +428,30 @@ function pc(canvas) {
     document.getElementById('threshold_val').value = this.value;
     batas = parseInt(this.value);
     // array threshold
-    tesbackup = new Array();
-    for (var c = 0; c < tes.length; c++) {
+    HasilAkhir = new Array();
+    for (var c = 0; c < FinalPic.length; c++) {
       temp = new Array();
       for (var d = 0; d < 4; d++) {
-        temp.push(tes[c][d]);
+        temp.push(FinalPic[c][d]);
       }
-      tesbackup.push(temp);
+      HasilAkhir.push(temp);
     }
 
-    for (var i = 0; i < tes.length; i++) {
-      gabung = Math.floor(
-        (tesbackup[i][0] + tesbackup[i][1] + tesbackup[i][2]) / 3
+    for (var i = 0; i < FinalPic.length; i++) {
+      blend = Math.floor(
+        (HasilAkhir[i][0] + HasilAkhir[i][1] + HasilAkhir[i][2]) / 3
       );
-      if (gabung < batas) {
-        gabung = 0;
+      if (blend < batas) {
+        blend = 0;
       } else {
-        gabung = 255;
+        blend = 255;
       }
-      tes[i][0] = gabung;
-      tes[i][1] = gabung;
-      tes[i][2] = gabung;
-      tes[i][3] = tes[i][3];
+      FinalPic[i][0] = blend;
+      FinalPic[i][1] = blend;
+      FinalPic[i][2] = blend;
+      FinalPic[i][3] = FinalPic[i][3];
     }
-    obj1.array2canvas(tesbackup);
+    obj1.array2canvas(HasilAkhir);
     document.getElementById('log_out').innerHTML = 'Threshold';
   });
 
