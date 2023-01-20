@@ -288,16 +288,17 @@ function pc(canvas) {
 // Algoritma Sobel
 {
   document.getElementById('sobel').addEventListener('click', function () {
-    var XArray = new Array(4);
-    var YArray = new Array(4);
-    var FinalArr = new Array();
-    var xcoord = 0;
-    var ycoord = 0;
     function count(x, y) {
       if (y >= 0 && x >= 0 && x < obj1.width && y < obj1.height)
         return parseInt(tes[obj1.xy2i(x, y)]);
       else return 0;
     }
+
+    var XArray = new Array(4);
+    var YArray = new Array(4);
+    var FinalArr = new Array();
+    var xcoord = 0;
+    var ycoord = 0;
 
     for (var i = 0; i < tes.length; i++) {
       var PrepArr = new Array(4);
